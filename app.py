@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from dotenv import load_dotenv
 from langchain.prompts import ChatPromptTemplate
 from langchain.chat_models import ChatOpenAI
@@ -20,12 +20,12 @@ app = FastAPI()
 #print(response)
 
 #print(os.environ)
-@app.get("/")
-async def read_root():
+@app.get("/{item_id}")
+async def read_root(item_id: int, request: Request):
     openai_api_key = os.environ.get("OPENAI_API_KEY")
     print(openai_api_key)
     chat = ChatMistralAI()
     messages = [HumanMessage(content="Quel artiste chante Bendo na bendo et ou se trouve le bendo ?")]
     response = chat.invoke(messages)
     print(response)
-    return {"Hello": "World"}
+    return {"Hello": item_id, "method": request.method}
