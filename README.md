@@ -10,6 +10,9 @@
 2. Start the Docker containers:
 <code>make build-up</code>
 
+## Add Docker container to VS Code
+<code>https://www.youtube.com/watch?v=0H2miBK_gAk&ab_channel=PatrickLoeber</code>
+
 
 ## API Documentation
 

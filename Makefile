@@ -13,7 +13,7 @@ build-up: ## Create all the Docker content (Container, Volume and Network)
 	$(DOCKER_COMPOSE) up --build
 
 start: ## Run the Docker containers
-	$(DOCKER) run -p 8000:8000 fastapi-app
+	$(DOCKER_COMPOSE) up
 
 stop: ## Stop the Docker containers
 	$(DOCKER_COMPOSE) stop
