@@ -5,7 +5,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    command: sh -c "uvicorn app:app --reload --port=8000 --host=0.0.0.0"
+    command: sh -c "uvicorn app.main:app --reload --port=8000 --host=0.0.0.0"
     ports:
       - "8000:8000"
     volumes:
@@ -13,3 +13,38 @@ services:
     environment:
       - OPENAI_API_KEY
       - MISTRAL_API_KEY
+    depends_on:
+      - db
+  
+  db:
+    container_name: db
+    image: 'postgres:15'
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+    volumes:
+      - postgres-db-data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+
+  pgadmin:
+    container_name: pgadmin
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: 'teste@teste.com'
+      PGADMIN_DEFAULT_PASSWORD: 'teste'
+    ports:
+      - 16543:80
+    volumes:
+      - ./servers.json:/pgadmin4/servers.json
+      - ./pgpass:/pgpass
+    depends_on:
+      - "db"
+
+volumes: 
+  postgres-db-data:
+    driver: local
+  pgadmin-data:
+    driver: local
