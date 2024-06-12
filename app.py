@@ -26,6 +26,6 @@ async def read_root(item_id: int, request: Request):
     print(openai_api_key)
     chat = ChatMistralAI()
     messages = [HumanMessage(content="Quel artiste chante Bendo na bendo et ou se trouve le bendo ?")]
-    response = chat.invoke(messages)
-    print(response)
+    #response = chat.invoke(messages)
+    #print(response)
     return {"Hello": item_id, "method": request.method}
