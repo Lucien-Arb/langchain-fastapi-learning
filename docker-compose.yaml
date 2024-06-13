@@ -1,21 +1,6 @@
 version: '3'
 
 services:
-  app:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    command: sh -c "uvicorn app.main:app --reload --port=8000 --host=0.0.0.0"
-    ports:
-      - "8000:8000"
-    volumes:
-      - .:/app
-    environment:
-      - OPENAI_API_KEY
-      - MISTRAL_API_KEY
-    depends_on:
-      - db
-  
   db:
     container_name: db
     image: 'postgres:15'
@@ -42,6 +27,25 @@ services:
       - ./pgpass:/pgpass
     depends_on:
       - "db"
+      
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: sh -c "uvicorn app.main:app --reload --port=8000 --host=0.0.0.0"
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+    environment:
+      - OPENAI_API_KEY
+      - MISTRAL_API_KEY
+      - SQLALCHEMY_DATABASE_URL
+      - SECRET_KEY
+      - ALGORITHM
+      - ACCESS_TOKEN_EXPIRE_MINUTES
+    depends_on:
+      - db
 
 volumes: 
   postgres-db-data:

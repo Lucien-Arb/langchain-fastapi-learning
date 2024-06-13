@@ -30,3 +30,5 @@ python-dateutil
 python-dotenv
 requests
 tiktoken
+psycopg2-binary
+asyncio

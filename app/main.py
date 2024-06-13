@@ -2,7 +2,8 @@ from dotenv import load_dotenv
 import os
 from fastapi import Depends, FastAPI, HTTPException
 from sqlalchemy.orm import Session
-from .database import SessionLocal, engine
+from .database import SessionLocal, engine, get_db, init_db
+import pprint as pp
 # import uvicorn
 # import openai
 # from langchain.prompts import ChatPromptTemplate
@@ -12,7 +13,12 @@ from .database import SessionLocal, engine
 
 
 load_dotenv()
-app = FastAPI()
+app = FastAPI() 
+
+
+@app.on_event("startup")
+async def on_startup():
+    await init_db()
 
 #openai_api_key = "sk-proj-nYFaQIe0tbyzETLB25vUT3BlbkFJh6eOlaS6s9jUO5UIywez"
 #prompt = ChatPromptTemplate.from_template("tell me a joke about {topic}")
