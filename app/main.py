@@ -1,9 +1,8 @@
 from dotenv import load_dotenv
 import os
-from fastapi import Depends, FastAPI, HTTPException
-from sqlalchemy.orm import Session
-from .database import SessionLocal, engine, get_db, init_db
-import pprint as pp
+from fastapi import FastAPI
+from .database import init_db
+from app import routers
 # import uvicorn
 # import openai
 # from langchain.prompts import ChatPromptTemplate
@@ -11,9 +10,12 @@ import pprint as pp
 # from langchain_core.messages import HumanMessage
 # from langchain_mistralai.chat_models import ChatMistralAI
 
-
 load_dotenv()
 app = FastAPI() 
+
+
+app.include_router(routers.user.router)
+app.include_router(routers.prompt.router)
 
 
 @app.on_event("startup")
