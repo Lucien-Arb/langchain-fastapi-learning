@@ -13,8 +13,12 @@ class UserCreate(UserBase):
     pass
 
 
-class UserUpdate(UserBase):
-    pass
+class UserUpdate(BaseModel):
+    user_id: int
+    first_name: str = Field(min_length=1, max_length=128)
+    last_name: str = Field(min_length=1, max_length=128)
+    email: EmailStr
+    password: str = Field(min_length=1, max_length=128)
 
 
 class User(UserCreate):

@@ -26,3 +26,12 @@ def read_users(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
 @router.post("/users/", response_model=User)
 def create_user(user: UserCreate, db: Session = Depends(get_db)):
     return crud.user.create_user(db, user)
+
+
+@router.patch("/users/{id}")
+def update_user(id: int, user: UserUpdate, db: Session = Depends(get_db)):
+    return crud.user.update_user(db, user, user_id=id)
+
+@router.delete("/users/{user_id}")
+def delete_user(user_id: int, db: Session = Depends(get_db)):
+    return crud.user.delete_user(db, user_id)
