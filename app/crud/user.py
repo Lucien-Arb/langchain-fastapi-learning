@@ -17,9 +17,11 @@ def create_user(db: Session, user: UserCreate):
     db.refresh(db_user)
     return db_user
 
-def update_user(db: Session, user_id: int, user: UserUpdate):
+def update_user(db: Session, user: UserUpdate, user_id: int):
     db_user = db.query(User).filter(User.user_id == user_id).first()
-    for key, value in user.model_dump().items():
+    if db_user is None:
+        return None
+    for key, value in user.dict(exclude_unset=True).items():
         setattr(db_user, key, value)
     db.commit()
     db.refresh(db_user)

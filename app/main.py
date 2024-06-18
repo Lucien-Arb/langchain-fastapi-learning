@@ -3,6 +3,8 @@ import os
 from fastapi import FastAPI
 from .database import init_db
 from app import routers
+from fastapi.openapi.utils import get_openapi
+
 # import uvicorn
 # import openai
 # from langchain.prompts import ChatPromptTemplate
@@ -11,11 +13,11 @@ from app import routers
 # from langchain_mistralai.chat_models import ChatMistralAI
 
 load_dotenv()
-app = FastAPI() 
+app = FastAPI(swagger_ui_parameters={"operationsSorter": "method"}) 
 
 
-app.include_router(routers.user.router)
 app.include_router(routers.prompt.router)
+app.include_router(routers.user.router)
 
 
 @app.on_event("startup")
