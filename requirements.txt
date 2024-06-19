@@ -32,3 +32,5 @@ requests
 tiktoken
 psycopg2-binary
 asyncio
+passlib[bcrypt]==1.7.4
+pyjwt==2.8.0

@@ -16,6 +16,7 @@ load_dotenv()
 app = FastAPI(swagger_ui_parameters={"operationsSorter": "method"}) 
 
 
+app.include_router(routers.authentication.router)
 app.include_router(routers.prompt.router)
 app.include_router(routers.user.router)
 

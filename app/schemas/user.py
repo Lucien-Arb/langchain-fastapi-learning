@@ -1,27 +1,28 @@
-from typing import List
-from pydantic import BaseModel, Field, EmailStr
+from pydantic import BaseModel, EmailStr, Field
 from app.schemas.prompt import Prompt
 
 class UserBase(BaseModel):
-    first_name: str = Field(min_length=1, max_length=128)
-    last_name: str = Field(min_length=1, max_length=128)
-    email: EmailStr
+    username: str = Field(unique=True, max_length=255)
+    email: EmailStr = Field(unique=True, index=True, max_length=255)
+    is_alive: bool = True
+    is_superuser: bool = False
 
 class UserCreate(UserBase):
-    password: str = Field(min_length=1, max_length=128)
+    password: str = Field(min_length=8, max_length=40)
 
-class UserUpdate(BaseModel):
-    first_name: str = Field(min_length=1, max_length=128, default=None)
-    last_name: str = Field(min_length=1, max_length=128, default=None)
-    email: EmailStr = None
-    password: str = Field(min_length=1, max_length=128, default=None)
+class UserUpdate(UserBase):
+    email: EmailStr | None = Field(default=None, max_length=255)  # type: ignore
+    password: str | None = Field(default=None, min_length=8, max_length=40)
 
     class Config:
         orm_mode = True
 
+class UserInDB(UserBase):
+    hashed_password: str
+
 class User(UserBase):
     user_id: int
-    prompts: List["Prompt"] = []
+    prompts: list["Prompt"] = []
 
     class Config:
         orm_mode = True

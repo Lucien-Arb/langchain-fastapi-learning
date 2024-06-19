@@ -1,17 +1,18 @@
 from app.database import Base
-from sqlalchemy import Column, String, Integer
+from sqlalchemy import Boolean, Column, String, Integer
 from sqlalchemy.orm import relationship
 
 
 class User(Base):
     __tablename__ = "users"
     user_id = Column(Integer, primary_key=True, index=True, autoincrement=True)
-    first_name = Column(String)
-    last_name = Column(String)
+    username = Column(String)
     email = Column(String)
-    password = Column(String)
+    hashed_password = Column(String)
+    is_alive = Column(Boolean, default=True)
+    is_superuser = Column(Boolean, default=False)
     
     prompts = relationship('Prompt', back_populates='owner')
     
     def __repr__(self):
-        return f"<User(user_id={self.user_id}, first_name={self.first_name}, last_name={self.last_name}, email={self.email})>"
+        return f"<User(user_id={self.user_id}, first_name={self.username} , email={self.email}, is_alive={self.is_alive}, is_superuser={self.is_superuser})>"
