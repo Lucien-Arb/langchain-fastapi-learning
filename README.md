@@ -16,6 +16,8 @@
 ## Add Docker container to VS Code
 <code>https://www.youtube.com/watch?v=0H2miBK_gAk&ab_channel=PatrickLoeber</code>
 
+4. After add dependancies with pip don't forget to run this command below at the current path
+<code>pip freeze > requirements.txt</code>
 
 ## API Documentation
 
