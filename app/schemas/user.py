@@ -4,6 +4,7 @@ from app.schemas.prompt import Prompt
 class UserBase(BaseModel):
     username: str = Field(unique=True, max_length=255)
     email: EmailStr = Field(unique=True, index=True, max_length=255)
+    roles: list[str] = Field(default_factory=lambda: ["user"])
     is_alive: bool = True
     is_superuser: bool = False
 

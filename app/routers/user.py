@@ -1,7 +1,10 @@
 # create all routes for user model:
 
+from typing import Annotated
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
+
+from app.crud.authentication import RoleChecker
 from .. import crud
 from app.database import get_db
 from app.schemas.user import UserCreate, UserUpdate, User
@@ -18,7 +21,7 @@ tags_metadata = [
 
 
 @router.get("/users/", tags=["User"], response_model=list[User])
-def read_users(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
+def read_users( _: Annotated[bool, Depends(RoleChecker(allowed_roles=["admin"]))], skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     users = crud.user.get_users(db, skip=skip, limit=limit)
     return users
 
