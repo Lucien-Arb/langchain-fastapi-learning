@@ -4,10 +4,14 @@ from fastapi import FastAPI
 from .database import init_db
 from app import routers
 from fastapi.openapi.utils import get_openapi
-from langserve import add_routes
+
 from langchain_core.messages import HumanMessage
 from langchain_mistralai.chat_models import ChatMistralAI
 from langchain.prompts import ChatPromptTemplate
+
+#from gpt4all import GPT4All
+#from langchain.llms import GPT4AllModel
+#from langchain.prompts import ChatPromptTemplate
 
 load_dotenv()
 
@@ -25,17 +29,10 @@ app.include_router(routers.user.router)
 model = ChatMistralAI()
 prompt = ChatPromptTemplate.from_template("tell me a joke about {topic}")
 
-add_routes(
-    app,
-    model,
-    path="/chat",
-)
-
-#add_routes(
-#    app,
-#    prompt | model,
-#    path="/generate",
-#)
+# Initialiser le modèle GPT4All avec Mistral
+#gpt4all = GPT4All(model_name="mistral-7b-openorca.Q4_0.gguf")
+#model = GPT4AllModel(gpt4all=gpt4all)
+#prompt = ChatPromptTemplate.from_template("tell me a joke about {topic}")
 
 @app.on_event("startup")
 async def on_startup():

@@ -10,6 +10,9 @@
 2. Start the Docker containers:
 <code>make build-up</code>
 
+3. Install LLM Model to using Gpt4All library
+<code>https://python.langchain.com/v0.2/docs/integrations/providers/gpt4all/</code>
+
 ## Add Docker container to VS Code
 <code>https://www.youtube.com/watch?v=0H2miBK_gAk&ab_channel=PatrickLoeber</code>
 
