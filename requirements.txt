@@ -12,14 +12,14 @@ tiktoken==0.5.2
 langserve==0.0.39
 langsmith==0.0.83
 uvicorn==0.26.0
-langchain-core 
+pydantic==1.10.13
+langchain-core
 langchain-mistralai
 asyncpg
 SQLAlchemy
 click
 greenlet
 h11
-pydantic
 starlette
 anyio
 typing_extensions
@@ -34,3 +34,5 @@ psycopg2-binary
 asyncio
 passlib[bcrypt]==1.7.4
 pyjwt==2.8.0
+gpt4all
+sse_starlette

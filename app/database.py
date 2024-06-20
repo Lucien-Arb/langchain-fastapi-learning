@@ -5,7 +5,6 @@ import os
 
 SQLALCHEMY_DATABASE_URL = os.environ.get("SQLALCHEMY_DATABASE_URL")
 print( "SQL ALCHEMY " + SQLALCHEMY_DATABASE_URL)
-        
 
 engine = create_engine(
     SQLALCHEMY_DATABASE_URL, echo=True
@@ -23,9 +22,6 @@ def get_db():
     finally:
         db.close()
         
-
-    
-    
 async def init_db():
     Base.metadata.create_all(bind=engine)
         
