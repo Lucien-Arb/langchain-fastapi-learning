@@ -33,3 +33,11 @@ async def get_mistral_ai(message: str):
     messages = [HumanMessage(content=message)]
     response = model.invoke(messages)
     return response
+
+@app.get("/mistral/template/{message}", tags=["MistralAI"])
+async def get_mistral_ai_with_template(message: str):
+    model = ChatMistralAI()
+    prompt = ChatPromptTemplate.from_template("Tell me a joke about {message}")
+    chain = prompt | model
+    response = chain.invoke({"message": message})
+    return response
