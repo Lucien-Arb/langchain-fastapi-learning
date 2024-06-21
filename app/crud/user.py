@@ -5,12 +5,13 @@ from app.schemas.user import UserCreate, UserUpdate
 import bcrypt
 
 
-
 def get_user(db: Session, username: str):
     return db.query(User).filter(User.username == username).first()
 
+
 def get_users(db: Session, skip: int = 0, limit: int = 100):
     return db.query(User).offset(skip).limit(limit).all()
+
 
 def create_user(db: Session, user: UserCreate):
     hashed_password = hash_password(user.password)
@@ -27,6 +28,7 @@ def create_user(db: Session, user: UserCreate):
     db.refresh(db_user)
     return db_user
 
+
 def update_user(db: Session, user: UserUpdate, user_id: int):
     db_user = db.query(User).filter(User.user_id == user_id).first()
     if db_user is None:
@@ -37,11 +39,13 @@ def update_user(db: Session, user: UserUpdate, user_id: int):
     db.refresh(db_user)
     return db_user
 
+
 def delete_user(db: Session, user_id: int):
     db_user = db.query(User).filter(User.user_id == user_id).first()
     db.delete(db_user)
     db.commit()
     return db_user
+
 
 def hash_password(password: str) -> str:
     salt = bcrypt.gensalt()

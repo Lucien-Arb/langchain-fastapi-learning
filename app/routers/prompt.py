@@ -20,7 +20,6 @@ tags_metadata = [
 ]
 
 
-
 @router.get("/prompts/", tags=["Prompt"], response_model=list[Prompt])
 def read_prompts(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     prompts = crud.prompt.get_prompts(db, skip=skip, limit=limit)

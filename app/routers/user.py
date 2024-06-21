@@ -19,9 +19,8 @@ tags_metadata = [
 ]
 
 
-
 @router.get("/users/", tags=["User"], response_model=list[User])
-def read_users( _: Annotated[bool, Depends(RoleChecker(allowed_roles=["admin"]))], skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
+def read_users(_: Annotated[bool, Depends(RoleChecker(allowed_roles=["admin"]))], skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     users = crud.user.get_users(db, skip=skip, limit=limit)
     return users
 
@@ -33,9 +32,11 @@ def read_user(user_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="User not found")
     return db_user
 
+
 @router.post("/users/", tags=["User"], response_model=User)
 def create_user(user: UserCreate, db: Session = Depends(get_db)):
     return crud.user.create_user(db, user)
+
 
 @router.patch("/users/{id}", tags=["User"])
 def update_user(id: int, user: UserUpdate, db: Session = Depends(get_db)):

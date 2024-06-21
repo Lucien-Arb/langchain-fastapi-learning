@@ -22,17 +22,20 @@ app.include_router(routers.authentication.router)
 app.include_router(routers.prompt.router)
 app.include_router(routers.user.router)
 
+
 @app.on_event("startup")
 async def on_startup():
     await init_db()
 
+
 @app.get("/mistral/{message}", tags=["MistralAI"])
 async def get_mistral_ai(message: str):
     model = ChatMistralAI()
-    #prompt = ChatPromptTemplate.from_template("tell me a joke about {topic}")
+    # prompt = ChatPromptTemplate.from_template("tell me a joke about {topic}")
     messages = [HumanMessage(content=message)]
     response = model.invoke(messages)
     return response
+
 
 @app.get("/mistral/template/{message}", tags=["MistralAI"])
 async def get_mistral_ai_with_template(message: str):

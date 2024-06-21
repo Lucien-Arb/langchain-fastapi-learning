@@ -13,15 +13,12 @@ from app.schemas.token import TokenData, Token
 from app.database import get_db
 
 
-
-
 SECRET_KEY = "e2cbdef8058300dd3a1913fe88c85f0162db36d7ccbde1291c2bc67abc54562d"
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
-REFRESH_TOKEN_EXPIRE_MINUTES = 120  
+REFRESH_TOKEN_EXPIRE_MINUTES = 120
 
 refresh_tokens = []
-
 
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
@@ -37,7 +34,7 @@ def get_password_hash(password):
 
 
 def authenticate_user(db: Session, username: str, password: str):
-    print("db : " , db)
+    print("db : ", db)
     user = get_user(db, username)
     print("user: ", user)
     if not user:
@@ -58,33 +55,33 @@ def create_access_token(data: dict, expires_delta: timedelta | None = None):
     return encoded_jwt
 
 
-async def validate_refresh_token(token: Annotated[str, Depends(oauth2_scheme)], db: Session = Depends(get_db)):  
+async def validate_refresh_token(token: Annotated[str, Depends(oauth2_scheme)], db: Session = Depends(get_db)):
     credentials_exception = HTTPException(
-        status_code=status.HTTP_401_UNAUTHORIZED, 
-        detail="Could not validate credentials")  
-    try:  
-        if token in refresh_tokens:  
-            payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])  
-            username: str = payload.get("sub")  
-            role: str = payload.get("role")  
+        status_code=status.HTTP_401_UNAUTHORIZED,
+        detail="Could not validate credentials")
+    try:
+        if token in refresh_tokens:
+            payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+            username: str = payload.get("sub")
+            role: str = payload.get("role")
             print("username : ", username)
             print("role : ", role)
-            if username is None or role is None:  
-                raise credentials_exception  
+            if username is None or role is None:
+                raise credentials_exception
             token_data = TokenData(username=username)
             print("token data : ", token_data)
-        else:  
-            raise credentials_exception  
-  
+        else:
+            raise credentials_exception
+
     except InvalidTokenError:
-        raise credentials_exception  
-  
-    user = get_user(db, username=token_data.username) 
-  
-    if user is None:  
-        raise credentials_exception  
-  
-    return user, token 
+        raise credentials_exception
+
+    user = get_user(db, username=token_data.username)
+
+    if user is None:
+        raise credentials_exception
+
+    return user, token
 
 
 async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)], db: Session = Depends(get_db)):
@@ -116,13 +113,13 @@ async def get_current_active_user(
     return current_user
 
 
-class RoleChecker:  
-  def __init__(self, allowed_roles):  
-    self.allowed_roles = allowed_roles  
-  
-  def __call__(self, user: Annotated[User, Depends(get_current_active_user)]):  
-    if user.roles in self.allowed_roles:  
-      return True  
-    raise HTTPException(  
-status_code=status.HTTP_401_UNAUTHORIZED,   
-detail="You don't have enough permissions") 
+class RoleChecker:
+    def __init__(self, allowed_roles):
+        self.allowed_roles = allowed_roles
+
+    def __call__(self, user: Annotated[User, Depends(get_current_active_user)]):
+        if user.roles in self.allowed_roles:
+            return True
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="You don't have enough permissions")
