@@ -114,11 +114,12 @@ async def get_current_active_user(
 
 
 class RoleChecker:
-    def __init__(self, allowed_roles):
+    def __init__(self, allowed_roles: list[str]):
         self.allowed_roles = allowed_roles
 
     def __call__(self, user: Annotated[User, Depends(get_current_active_user)]):
-        if user.roles in self.allowed_roles:
+        print("user.roles : ", user.roles)
+        if any(role in self.allowed_roles for role in user.roles):
             return True
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,

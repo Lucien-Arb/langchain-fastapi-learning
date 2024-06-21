@@ -18,7 +18,7 @@ tags_metadata = [
     },
 ]
 
-
+# A user can read all users if they have the admin role in the user.roles list
 @router.get("/users/", tags=["User"], response_model=list[User])
 def read_users(_: Annotated[bool, Depends(RoleChecker(allowed_roles=["admin"]))], skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     users = crud.user.get_users(db, skip=skip, limit=limit)
