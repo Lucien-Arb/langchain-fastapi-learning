@@ -12,7 +12,7 @@ from langchain_mistralai.chat_models import ChatMistralAI
 load_dotenv()
 app = FastAPI()
 
-# openai_api_key = "sk-proj-nYFaQIe0tbyzETLB25vUT3BlbkFJh6eOlaS6s9jUO5UIywez"
+# openai_api_key = ""
 # prompt = ChatPromptTemplate.from_template("tell me a joke about {topic}")
 # model = ChatOpenAI(model="gpt-3.5-turbo")
 # chain = prompt | model
