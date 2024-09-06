@@ -8,7 +8,6 @@ WORKDIR /app
 COPY requirements.txt .
 
 RUN apt-get update && apt-get install -y build-essential g++-11
-RUN apt-get install wget curl
 
 RUN sh -c "$(wget -O- https://github.com/deluan/zsh-in-docker/releases/download/v1.1.5/zsh-in-docker.sh)" -- \
     -t ys \

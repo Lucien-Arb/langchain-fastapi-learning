@@ -1,6 +1,41 @@
-# Ignore __pycache__ directories
+# Fichiers et dossiers spécifiques à Python
 __pycache__/
-**/__pycache__/
+*.py[cod]
+*$py.class
 
-# Optionally, ignore .pyc files in any directory
-*.pyc
+# Environnements virtuels
+venv/
+env/
+ENV/
+
+# Fichiers de distribution / packaging
+*.egg-info/
+dist/
+build/
+eggs/
+.eggs/
+
+# Fichiers de log Scrapy
+*.log
+
+# Fichiers système
+.DS_Store
+Thumbs.db
+
+# Fichiers d'IDE et d'éditeur
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Fichiers de base de données
+*.db
+*.sqlite3
+
+# Dossiers spécifiques au projet (à adapter selon votre structure)
+lib/
+bin/
+include/
+
+.env
+var/
